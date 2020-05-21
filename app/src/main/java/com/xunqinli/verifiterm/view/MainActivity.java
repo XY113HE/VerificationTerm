@@ -5,18 +5,22 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.xunqinli.verifiterm.R;
+import com.xunqinli.verifiterm.apli.VerfAplication;
 import com.xunqinli.verifiterm.databinding.ActivityMainBinding;
 import com.xunqinli.verifiterm.interf.MainInterf;
 import com.xunqinli.verifiterm.model.VerificationModeBean;
 import com.xunqinli.verifiterm.model.VerificationNotifyBean;
 import com.xunqinli.verifiterm.net.MyMqttService;
+import com.xunqinli.verifiterm.utils.AppHook;
 import com.xunqinli.verifiterm.viewmodel.HintSoundVM;
 import com.xunqinli.verifiterm.viewmodel.MainVM;
 import com.xunqinli.verifiterm.viewmodel.ShowDateVM;
@@ -38,6 +42,7 @@ public class MainActivity extends BaseActivity implements MainInterf.MainView {
     private HintSoundVM mHintSoundVM;
     private Intent mqttIntent;
     private List<VerificationNotifyBean> verfInfoList = new ArrayList<>();
+    private boolean wantToExit = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,5 +197,30 @@ public class MainActivity extends BaseActivity implements MainInterf.MainView {
                 break;
         }
         return result;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+    private void exit(){
+        if(wantToExit){
+            AppHook.get().finishAllActivity();
+        }else{
+            wantToExit = true;
+            Toast.makeText(this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    SystemClock.sleep(2000);
+                    wantToExit = false;
+                }
+            }).start();
+        }
     }
 }

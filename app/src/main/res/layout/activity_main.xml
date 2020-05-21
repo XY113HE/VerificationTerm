@@ -41,18 +41,24 @@
                 android:text="退出"
                 android:gravity="center_vertical"
                 android:textColor="@color/colorWhite"/>
-            <ImageView
-                android:id="@+id/top_state_icon"
+            <RelativeLayout
+                android:id="@+id/top_state_icon_layout"
                 android:layout_toRightOf="@id/exit_btn"
                 android:layout_toEndOf="@id/exit_btn"
                 android:layout_width="20dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/hint_light_wrong"/>
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/top_state_icon"
+                    android:layout_centerInParent="true"
+                    android:layout_width="20dp"
+                    android:layout_height="21dp"
+                    android:src="@drawable/hint_light_wrong"/>
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/top_state_text"
-                android:layout_toRightOf="@id/top_state_icon"
-                android:layout_toEndOf="@id/top_state_icon"
+                android:layout_toRightOf="@id/top_state_icon_layout"
+                android:layout_toEndOf="@id/top_state_icon_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"

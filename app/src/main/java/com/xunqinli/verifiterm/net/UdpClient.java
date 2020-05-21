@@ -157,7 +157,7 @@ public class UdpClient
             return "Err";
         }
     }
-    public String SendCmd(String Cmd)
+    public synchronized String SendCmd(String Cmd)
     {
         byte command[] =new byte[1];
         if(Cmd.equals("查询"))
