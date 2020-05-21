@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="colorTheme">#32375a</color>
+    <color name="colorWhite">#fff</color>
+    <color name="colorEtBgGray">#ebeaf1</color>
+    <color name="colorEtHintGray">#c2c2c2</color>
+    <color name="mainTopBg">#3f4771</color>
+    <color name="mainBlue">#7177ee</color>
+    <color name="mainTextBlue">#4976ff</color>
+    <color name="color_black">#000</color>
+    <color name="color_gray">#666</color>
+
+    <color name="setting_gray_bg">#F5F6F5</color>
+    <color name="setting_et_bg">#CFD0CF</color>
+    <color name="btn_unclick_state">#D0D0D0</color>
+    <color name="btn_click_state">#005DFF</color>
+
+    <color name="wifi_list_bg">#F0F0F0</color>
+    <color name="transparent">#00000000</color>
+
+</resources>
