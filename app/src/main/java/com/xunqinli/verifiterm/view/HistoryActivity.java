@@ -1,7 +1,5 @@
 package com.xunqinli.verifiterm.view;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,31 +11,56 @@ import com.xunqinli.verifiterm.R;
 import com.xunqinli.verifiterm.adapter.HistroyAdapter;
 import com.xunqinli.verifiterm.databinding.ActivityHistoryBinding;
 import com.xunqinli.verifiterm.interf.HistroyInterf;
-import com.xunqinli.verifiterm.model.VerificationModeBean;
 import com.xunqinli.verifiterm.model.VerificationNotifyBean;
 import com.xunqinli.verifiterm.sql.MySQLiteHelper;
+import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.viewmodel.HistroyVM;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryActivity extends BaseActivity implements HistroyInterf.MainView {
     private ActivityHistoryBinding mBinding;
     private HistroyVM mHistroyVM;
     private HistroyAdapter adapter;
+    private String tag = "";
+    private MySQLiteHelper helper;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            tag = getIntent().getStringExtra("tag");
+        } catch (Exception e) {
+        }
         initDataBinding();
         initAdapter();
         initSql();
     }
 
     private void initSql() {
-        MySQLiteHelper helper = new MySQLiteHelper(this);
-        List<VerificationNotifyBean> list = helper.searchRecord();
-       }
+        helper = new MySQLiteHelper(this);
+        if("".equals(tag) || "history".equals(tag)){
+            showAllRecord();
+        }else if("today".equals(tag)){
+            showTodayRecord();
+        }
+
+    }
+
+    private void showTodayRecord() {
+        showDayRecord(Tools.getSpecialNowValue());
+    }
+
+    private void showDayRecord(long spcialCode) {
+        helper.searchRecord(spcialCode);
+        mBinding.startDate.setText(Tools.getDay(spcialCode));
+        mBinding.endDate.setText(Tools.getDay(spcialCode));
+    }
+
+    private void showAllRecord() {
+        helper.searchRecord();
+        mBinding.startDate.setText(Tools.getDay(Tools.getSpecialNowValue()-9));
+        mBinding.endDate.setText(Tools.getNowDay());
+    }
 
     private void initAdapter() {
         adapter = new HistroyAdapter(this, null);
@@ -58,6 +81,16 @@ public class HistoryActivity extends BaseActivity implements HistroyInterf.MainV
     @Override
     public void refreshData(List<VerificationNotifyBean> list) {
         adapter.setData(list);
-        mBinding.orderCountTv.setText(list == null || list.size() == 0 ? "暂无已核销订单" : "共"+list.size()+"笔已核销订单");
+        mBinding.orderCountTv.setText(list == null || list.size() == 0 ? "暂无已核销订单" : "共" + list.size() + "笔已核销订单");
+    }
+
+    @Override
+    public void selectDate(long specialCode) {
+        showDayRecord(specialCode);
+    }
+
+    @Override
+    public void selectAllDate() {
+        showAllRecord();
     }
 }

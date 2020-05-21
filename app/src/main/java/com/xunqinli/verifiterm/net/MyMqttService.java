@@ -14,7 +14,6 @@ import com.xunqinli.verifiterm.cons.Constant;
 import com.xunqinli.verifiterm.model.VerificationModeBean;
 import com.xunqinli.verifiterm.model.VerificationNotifyBean;
 import com.xunqinli.verifiterm.rxbus.RxBus;
-import com.xunqinli.verifiterm.utils.Tools;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;

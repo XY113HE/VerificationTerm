@@ -1,7 +1,6 @@
 package com.xunqinli.verifiterm.viewmodel;
 
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.xunqinli.verifiterm.model.DateTimeBean;
 import com.xunqinli.verifiterm.rxbus.RxBus;
@@ -12,7 +11,6 @@ import java.net.URLConnection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 //控制显示时间（网路、本地）

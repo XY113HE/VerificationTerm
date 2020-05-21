@@ -1,15 +1,10 @@
 package com.xunqinli.verifiterm.view;
 
-import android.Manifest;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.xunqinli.verifiterm.R;
 import com.xunqinli.verifiterm.databinding.ActivityControlDetailBinding;
 import com.xunqinli.verifiterm.interf.ControlDetailInterf;

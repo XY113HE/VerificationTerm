@@ -14,10 +14,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.xunqinli.verifiterm.R;
-import com.xunqinli.verifiterm.apli.VerfAplication;
 import com.xunqinli.verifiterm.databinding.ActivityMainBinding;
 import com.xunqinli.verifiterm.interf.MainInterf;
-import com.xunqinli.verifiterm.model.VerificationModeBean;
 import com.xunqinli.verifiterm.model.VerificationNotifyBean;
 import com.xunqinli.verifiterm.net.MyMqttService;
 import com.xunqinli.verifiterm.utils.AppHook;

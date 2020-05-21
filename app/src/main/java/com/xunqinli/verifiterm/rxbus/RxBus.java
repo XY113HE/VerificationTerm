@@ -1,7 +1,5 @@
 package com.xunqinli.verifiterm.rxbus;
 
-
-
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.SerializedSubject;

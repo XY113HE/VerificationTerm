@@ -53,7 +53,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="2019-06"
+                    android:text="2019-06-20"
                     android:textColor="@color/color_black"
                     android:textSize="14dp" />
 
@@ -63,18 +63,19 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="2019-09"
+                    android:text="2019-09-20"
                     android:textColor="@color/color_black"
                     android:textSize="14dp" />
 
             </LinearLayout>
 
             <ImageView
-                android:layout_width="40dp"
+                android:id="@+id/select_date_btn"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:padding="10dp"
+                android:padding="5dp"
                 android:src="@drawable/history_set_btn" />
 
         </LinearLayout>

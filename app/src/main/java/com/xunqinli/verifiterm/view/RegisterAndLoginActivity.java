@@ -3,7 +3,6 @@ package com.xunqinli.verifiterm.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -15,7 +14,6 @@ import com.xunqinli.verifiterm.cons.Constant;
 import com.xunqinli.verifiterm.databinding.ActivityRegandlogBinding;
 import com.xunqinli.verifiterm.interf.RegAndLogInterf;
 import com.xunqinli.verifiterm.model.ShowLoginBean;
-import com.xunqinli.verifiterm.model.VerificationNotifyBean;
 import com.xunqinli.verifiterm.rxbus.RxBus;
 import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.viewmodel.RegisterAndLoginVM;
@@ -39,7 +37,6 @@ public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogI
         //初始化mac值
         Constant.MAC = Tools.getMac(getApplicationContext());
         initRxBus();
-        Log.e(TAG, "onCreate: " + Tools.getMD5("123456z").toUpperCase());
     }
 
     private void initRxBus() {

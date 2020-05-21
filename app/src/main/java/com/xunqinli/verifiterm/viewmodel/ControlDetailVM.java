@@ -29,8 +29,6 @@ import java.util.concurrent.TimeUnit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-import static com.xunqinli.verifiterm.cons.Constant.UDP_IP;
-
 public class ControlDetailVM {
     private ControlDetailInterf.MainView mMainView;
     private ActivityControlDetailBinding mBinding;

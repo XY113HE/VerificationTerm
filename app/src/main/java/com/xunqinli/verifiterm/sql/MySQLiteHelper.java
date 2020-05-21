@@ -3,7 +3,6 @@ package com.xunqinli.verifiterm.sql;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
-    public static final String SPECIAL_DATE = "2020-06-28 00:00:00";
+    public static final String SPECIAL_DATE = "2020-06-28 00:00:01";
 
     public MySQLiteHelper(Context context){
         super(context, "verf_record", null, 1);
@@ -61,7 +60,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 //    }
 
     //查询数据
-    public List<VerificationNotifyBean> searchRecord(){
+    public void searchRecord(){
         //创建游标对象
         Cursor cursor = getWritableDatabase().query("verf_record", new String[]{"num", "name", "car", "phone", "time", "operater", "spcode"}, "spcode > ?", new String[]{(Tools.getSpecialNowValue()-10)+""}, null, null, null);
         //利用游标遍历所有数据对象
@@ -76,6 +75,22 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
         cursor.close();
         RxBus.getRxBus().post(new RefreshHistroyBean(datas));
-        return datas;
+    }
+
+    public void searchRecord(long specialNowValue) {
+        //创建游标对象
+        Cursor cursor = getWritableDatabase().query("verf_record", new String[]{"num", "name", "car", "phone", "time", "operater", "spcode"}, "spcode = ?", new String[]{specialNowValue+""}, null, null, null);
+        //利用游标遍历所有数据对象
+        //为了显示全部，把所有对象连接起来，放到TextView中
+        List<VerificationNotifyBean> datas = new ArrayList<>();
+        if(cursor.moveToFirst()){
+            do {
+                VerificationNotifyBean data = new VerificationNotifyBean(Integer.parseInt(cursor.getString(0)), cursor.getString(1),cursor.getString(2),cursor.getString(3),cursor.getString(4),cursor.getString(5));
+                datas.add(data);
+            }while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        RxBus.getRxBus().post(new RefreshHistroyBean(datas));
     }
 }

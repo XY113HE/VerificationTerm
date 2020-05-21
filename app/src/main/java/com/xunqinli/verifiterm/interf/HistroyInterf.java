@@ -8,5 +8,9 @@ public interface HistroyInterf {
     interface MainView extends BaseInterf.MainView{
 
         void refreshData(List<VerificationNotifyBean> data);
+
+        void selectDate(long specialCode);
+
+        void selectAllDate();
     }
 }

@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
 import com.trello.rxlifecycle.android.ActivityEvent;
 import com.xunqinli.verifiterm.R;
-import com.xunqinli.verifiterm.cons.Constant;
 import com.xunqinli.verifiterm.databinding.ActivityMainBinding;
 import com.xunqinli.verifiterm.interf.MainInterf;
 import com.xunqinli.verifiterm.model.ControlConnectStateBean;
@@ -27,7 +26,6 @@ import com.xunqinli.verifiterm.net.UdpClient;
 import com.xunqinli.verifiterm.rxbus.RxBus;
 import com.xunqinli.verifiterm.sql.MySQLiteHelper;
 import com.xunqinli.verifiterm.utils.ThreadPoolTools;
-import com.xunqinli.verifiterm.utils.Tools;
 
 import java.util.concurrent.TimeUnit;
 

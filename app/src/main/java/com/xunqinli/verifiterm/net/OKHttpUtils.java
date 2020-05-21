@@ -1,7 +1,5 @@
 package com.xunqinli.verifiterm.net;
 
-import android.util.Log;
-
 import com.xunqinli.verifiterm.utils.Tools;
 
 import okhttp3.Callback;
@@ -11,7 +9,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import static com.xunqinli.verifiterm.cons.Constant.HTTP_ADDRESS;
-import static com.xunqinli.verifiterm.cons.Constant.RSA_PUBLIC;
 
 public class OKHttpUtils {
     private static String TAG = "lmy_okhttputils";

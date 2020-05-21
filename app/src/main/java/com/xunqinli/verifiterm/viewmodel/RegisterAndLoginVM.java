@@ -1,12 +1,8 @@
 package com.xunqinli.verifiterm.viewmodel;
 
-import android.content.Context;
-import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,7 +14,6 @@ import com.xunqinli.verifiterm.model.ShowLoginBean;
 import com.xunqinli.verifiterm.model.UserLoginBean;
 import com.xunqinli.verifiterm.net.OKHttpUtils;
 import com.xunqinli.verifiterm.rxbus.RxBus;
-import com.xunqinli.verifiterm.utils.Tools;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
