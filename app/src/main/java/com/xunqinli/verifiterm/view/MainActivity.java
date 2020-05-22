@@ -19,6 +19,7 @@ import com.xunqinli.verifiterm.interf.MainInterf;
 import com.xunqinli.verifiterm.model.VerificationNotifyBean;
 import com.xunqinli.verifiterm.net.MyMqttService;
 import com.xunqinli.verifiterm.utils.AppHook;
+import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.viewmodel.HintSoundVM;
 import com.xunqinli.verifiterm.viewmodel.MainVM;
 import com.xunqinli.verifiterm.viewmodel.ShowDateVM;
@@ -63,12 +64,31 @@ public class MainActivity extends BaseActivity implements MainInterf.MainView {
     }
 
     private void initView() {
-        String verfMode = mySharedPreferences.getString(VERF_MODE, AUTO_MODE);
-        if (AUTO_MODE.equals(verfMode)) {
-            mMainBinding.verfBtn.setVisibility(View.GONE);
-        } else if (HAND_MODE.equals(verfMode)) {
-            mMainBinding.verfBtn.setVisibility(View.VISIBLE);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+
+            String name = bundle.getString("name");
+            String phone = bundle.getString("phone");
+            String state = bundle.getString("state");
+            String code = bundle.getString("code");
+            String deptCode = bundle.getString("deptCode");
+
+            if("1".equals(state)){
+                mMainBinding.nameUser.setText(name);
+                mMainBinding.mainVersion.setText(Tools.getVersion(this));
+                String verfMode = mySharedPreferences.getString(VERF_MODE, AUTO_MODE);
+                if (AUTO_MODE.equals(verfMode)) {
+                    mMainBinding.verfBtn.setVisibility(View.GONE);
+                } else if (HAND_MODE.equals(verfMode)) {
+                    mMainBinding.verfBtn.setVisibility(View.VISIBLE);
+                }
+            }else {
+                Toast.makeText(this, "该用户已被禁用", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
         }
+
     }
 
     private void initDataBinding() {
@@ -102,7 +122,7 @@ public class MainActivity extends BaseActivity implements MainInterf.MainView {
     }
 
     //TODO 超过4个后的处理还未做 待确认文字
-    // 后进的顶先进的
+    // 暂时解决方案 后进的顶先进的
     @Override
     public void showVerfInfo(VerificationNotifyBean bean) {
         //预留，可以使用数据库里的总核销数

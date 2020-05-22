@@ -57,9 +57,10 @@ public class UpdateDialog extends Dialog {
             updateBinding.confirmBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateBinding.confirmLayout.setVisibility(View.GONE);
-                    updateBinding.updatingLayout.setVisibility(View.VISIBLE);
+//                    updateBinding.confirmLayout.setVisibility(View.GONE);
+//                    updateBinding.updatingLayout.setVisibility(View.VISIBLE);
                     listener.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
+                    dialog.dismiss();
                 }
             });
             updateBinding.cancelBtn.setOnClickListener(new View.OnClickListener() {

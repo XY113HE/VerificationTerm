@@ -1,13 +1,13 @@
 package com.xunqinli.verifiterm.viewmodel;
 
 import android.content.DialogInterface;
-import android.os.SystemClock;
+import android.content.Intent;
+import android.net.Uri;
 import android.widget.Toast;
 
 import com.jakewharton.rxbinding.view.RxView;
 import com.xunqinli.verifiterm.databinding.ActivitySettingBinding;
 import com.xunqinli.verifiterm.interf.SettingInterf;
-import com.xunqinli.verifiterm.utils.ThreadPoolTools;
 import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.view.UpdateDialog;
 
@@ -18,6 +18,7 @@ import rx.functions.Action1;
 
 
 public class SettingVM {
+    private static final String TAG = "lmy_setting";
     private ActivitySettingBinding mBinding;
     private SettingInterf.MainView mMainView;
     public SettingVM(ActivitySettingBinding mBinding, SettingInterf.MainView mMainView){
@@ -69,7 +70,7 @@ public class SettingVM {
                     public void call(Void aVoid) {
                         //TODO 检查更新
                         //TODO 获取当前最新版本号的接口和本地版本号对比
-                        String netVersion = "1.04";
+                        String netVersion = Tools.getVersion(mMainView.getActivity());
                         if(Float.parseFloat(Tools.getVersion(mMainView.getActivity())) < Float.parseFloat(netVersion)){
                             //TODO 显示确认弹窗
                             final UpdateDialog.Builder builder = new UpdateDialog.Builder();
@@ -80,25 +81,11 @@ public class SettingVM {
                                         public void onClick(final DialogInterface dialog, int which) {
                                             if(which == DialogInterface.BUTTON_POSITIVE){
                                                 //TODO 从下载地址更新apk
-                                                Toast.makeText(mMainView.getActivity(), "下载中", Toast.LENGTH_SHORT).show();
-                                                builder.setMax(100);
-                                                ThreadPoolTools.getInstance().executorCommonThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        for (int i = 0; i <= 100; i++){
-                                                            final int finalI = i;
-                                                            mMainView.getActivity().runOnUiThread(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    builder.setProgress(finalI);
-                                                                }
-                                                            });
-
-                                                            SystemClock.sleep(100);
-                                                        }
-                                                        dialog.dismiss();
-                                                    }
-                                                });
+                                                Intent intent = new Intent();
+                                                intent.setAction("android.intent.action.VIEW");
+                                                Uri downloadUrl = Uri.parse("https://www.appdy8.com/native/platform/dy/cp.apk");
+                                                intent.setData(downloadUrl);
+                                                mMainView.getActivity().startActivity(intent);
                                             }
                                         }
                                     })

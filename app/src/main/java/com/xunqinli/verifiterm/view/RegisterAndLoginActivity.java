@@ -58,7 +58,7 @@ public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogI
 
     private void initView() {
         //TODO 测试代码
-        editor.putString(ACTIVE_CODE_S, "2019058120001").commit();
+        //editor.putString(ACTIVE_CODE_S, "2019058120001").commit();
         String s = mySharedPreferences.getString(ACTIVE_CODE_S, "");
         if(TextUtils.isEmpty(s)){
             showRegister();

@@ -14,7 +14,7 @@
                 android:id="@+id/name_user"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="李大宝"
+                tools:text="李大宝"
                 android:textSize="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
@@ -83,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="v1.01"
+                tools:text="v1.01"
                 android:textSize="15dp"
                 android:textColor="@color/colorWhite"/>
         </RelativeLayout>
@@ -178,7 +178,7 @@
                                 android:layout_weight="1.5"
                                 android:textSize="18dp"
                                 android:textColor="@color/colorWhite"
-                                android:text="09:23:12"
+                                android:text="- - : - - : - -"
                                 android:gravity="center_vertical"/>
                         </LinearLayout>
 

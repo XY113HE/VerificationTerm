@@ -43,5 +43,4 @@ public class OKHttpUtils {
                 .build();
         client.newCall(request).enqueue(callback);
     }
-
 }
