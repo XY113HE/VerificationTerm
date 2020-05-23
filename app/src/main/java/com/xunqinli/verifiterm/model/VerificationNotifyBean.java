@@ -19,6 +19,8 @@ public class VerificationNotifyBean implements Parcelable {
     private String dateTime;
     private String operater;
 
+    private boolean isConfirm;
+
     public VerificationNotifyBean(int num, String name, String carNum, String phone, String dateTime, String operater) {
         this.num = num;
         this.name = name;
@@ -35,6 +37,7 @@ public class VerificationNotifyBean implements Parcelable {
         phone = in.readString();
         dateTime = in.readString();
         operater = in.readString();
+        isConfirm = in.readBoolean();
     }
 
     public static final Creator<VerificationNotifyBean> CREATOR = new Creator<VerificationNotifyBean>() {
@@ -102,6 +105,14 @@ public class VerificationNotifyBean implements Parcelable {
         return 0;
     }
 
+    public boolean isConfirm() {
+        return isConfirm;
+    }
+
+    public void setConfirm(boolean confirm) {
+        isConfirm = confirm;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(num);
@@ -110,5 +121,6 @@ public class VerificationNotifyBean implements Parcelable {
         parcel.writeString(phone);
         parcel.writeString(dateTime);
         parcel.writeString(operater);
+        parcel.writeBoolean(isConfirm);
     }
 }

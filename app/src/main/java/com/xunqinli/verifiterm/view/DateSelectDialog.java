@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 
@@ -64,6 +65,7 @@ public class DateSelectDialog extends Dialog {
         private void initClicks() {
             for (int i = 0; i < 10; i++) {
                 final int finalI = i;
+                getDateView(i).setText(Tools.getDay(Tools.getSpecialNowValue()-i));
                 getDateView(i).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -81,7 +83,7 @@ public class DateSelectDialog extends Dialog {
             });
         }
 
-        private View getDateView(int i) {
+        private TextView getDateView(int i) {
             switch (i){
                 case 0:
                     return binding.date0;

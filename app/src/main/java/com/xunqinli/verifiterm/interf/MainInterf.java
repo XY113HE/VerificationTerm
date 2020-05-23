@@ -12,5 +12,8 @@ public interface MainInterf {
         void verfAlert();
 
         void showVerfInfo(VerificationNotifyBean bean);
+
+        void updateConfirmState(int i);
+
     }
 }

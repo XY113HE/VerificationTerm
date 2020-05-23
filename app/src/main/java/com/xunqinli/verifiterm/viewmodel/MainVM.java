@@ -229,6 +229,7 @@ public class MainVM {
                     @Override
                     public void call(Void aVoid) {
                         sendControlOpen();
+                        mMainView.updateConfirmState(0);
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -244,6 +245,54 @@ public class MainVM {
                     @Override
                     public void call(Void aVoid) {
                         mMainView.getActivity().finish();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+        RxView.clicks(mBinding.infoLayout1)
+                .compose(mMainView.getActivity().<Void>bindToLifecycle())
+                .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        sendControlOpen();
+                        mMainView.updateConfirmState(1);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+        RxView.clicks(mBinding.infoLayout2)
+                .compose(mMainView.getActivity().<Void>bindToLifecycle())
+                .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        sendControlOpen();
+                        mMainView.updateConfirmState(2);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+
+                    }
+                });
+        RxView.clicks(mBinding.infoLayout3)
+                .compose(mMainView.getActivity().<Void>bindToLifecycle())
+                .throttleFirst(1000, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        sendControlOpen();
+                        mMainView.updateConfirmState(3);
                     }
                 }, new Action1<Throwable>() {
                     @Override
