@@ -7,5 +7,7 @@ public interface RegAndLogInterf {
         void jump2main(Bundle bundle);
 
         void showLogin();
+
+        void showInfo(String msg);
     }
 }

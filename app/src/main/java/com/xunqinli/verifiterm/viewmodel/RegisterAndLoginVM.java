@@ -9,11 +9,13 @@ import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
 import com.xunqinli.verifiterm.databinding.ActivityRegandlogBinding;
 import com.xunqinli.verifiterm.interf.RegAndLogInterf;
+import com.xunqinli.verifiterm.model.BaseBean;
 import com.xunqinli.verifiterm.model.RegisterBean;
 import com.xunqinli.verifiterm.model.ShowLoginBean;
 import com.xunqinli.verifiterm.model.UserLoginBean;
 import com.xunqinli.verifiterm.net.OKHttpUtils;
 import com.xunqinli.verifiterm.rxbus.RxBus;
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import okhttp3.Call;
@@ -57,7 +59,7 @@ public class RegisterAndLoginVM {
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
                                 if (!response.isSuccessful()) {
-                                    Log.e(TAG, "onResponse1: " + "Unexpected code " + response);
+                                    mMainView.showInfo("服务器错误1");
                                 } else {
                                     //Log.e(TAG, "onResponse2: " + response.body().string());
                                     /**
@@ -76,12 +78,7 @@ public class RegisterAndLoginVM {
                                         // 激活码的存储(sp)
                                         mMainView.getActivity().editor.putString("active_code", code).commit();
                                     } else {
-                                        mMainView.getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                Toast.makeText(mMainView.getActivity(), b.getMsg(), Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
+                                        mMainView.showInfo(b.getMsg());
                                     }
 
                                 }
@@ -118,7 +115,7 @@ public class RegisterAndLoginVM {
                             @Override
                             public void onResponse(Call call, Response response) throws IOException {
                                 if (!response.isSuccessful()) {
-                                    Log.e(TAG, "onResponse2: " + "Unexpected code " + response);
+                                    mMainView.showInfo("服务器错误2");
                                 } else {
                                     //Log.e(TAG, "onResponse2: " + response.body().string());
                                     //RxBus.getRxBus().post(new Gson().fromJson(response.body().string(), UserLoginBean.class));
@@ -142,17 +139,17 @@ public class RegisterAndLoginVM {
                                                 bundle.putString("deptCode", bean.getData().getDeptCode());
                                                 mMainView.jump2main(bundle);
                                             }else{
-                                                mMainView.getActivity().runOnUiThread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Toast.makeText(mMainView.getActivity(), bean.getMsg(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
+                                                mMainView.showInfo(bean.getMsg());
                                             }
 
 
                                     } catch (Exception e) {
-                                        Log.e(TAG, "onResponse: " + e.getMessage());
+                                        try {
+                                            final BaseBean bean = new Gson().fromJson(response.body().string(), BaseBean.class);
+                                            mMainView.showInfo(bean.getMsg());
+                                        }catch (Exception eInner){
+                                            Log.e(TAG, "onResponse: " + eInner.getMessage());
+                                        }
                                     }
                                 }
                             }

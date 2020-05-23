@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -15,6 +16,7 @@ import com.xunqinli.verifiterm.databinding.ActivityRegandlogBinding;
 import com.xunqinli.verifiterm.interf.RegAndLogInterf;
 import com.xunqinli.verifiterm.model.ShowLoginBean;
 import com.xunqinli.verifiterm.rxbus.RxBus;
+import com.xunqinli.verifiterm.utils.AppHook;
 import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.viewmodel.RegisterAndLoginVM;
 
@@ -97,6 +99,16 @@ public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogI
         mBinding.box3Layout.setVisibility(View.GONE);
         mBinding.registerBtn.setVisibility(View.GONE);
         mBinding.loginBtn.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showInfo(final String msg) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(RegisterAndLoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void showRegister(){

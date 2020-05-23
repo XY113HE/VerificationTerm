@@ -66,9 +66,9 @@ public class MainActivity extends BaseActivity implements MainInterf.MainView {
                 finish();
             }
         } else {
-            //TODO 测试时候可以去掉
-//            Toast.makeText(this, "bundle为空", Toast.LENGTH_SHORT).show();
-//            finish();
+            //TODO 测试直接打开主页的时候要去掉
+            Toast.makeText(this, "bundle为空", Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 
