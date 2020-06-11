@@ -43,4 +43,14 @@ public class OKHttpUtils {
                 .build();
         client.newCall(request).enqueue(callback);
     }
+
+    //检测版本
+    public static void checkVersion(Callback callback){
+        String method = "WTE/New/Version";
+        Request request = new Request.Builder()
+                .url(HTTP_ADDRESS + method)
+                .get()
+                .build();
+        client.newCall(request).enqueue(callback);
+    }
 }

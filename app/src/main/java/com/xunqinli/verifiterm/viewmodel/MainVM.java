@@ -49,7 +49,7 @@ public class MainVM {
         initClicks();
         initRxBus();
         //TODO test初始化数据库
-        initTestSqlData();
+        //initTestSqlData();
         //中间控制器连接状态查询
         checkControlState();
     }
@@ -77,16 +77,16 @@ public class MainVM {
                 .subscribe(new Action1<VerificationNotifyBean>() {
                     @Override
                     public void call(VerificationNotifyBean bean) {
-                        //TODO 插入到数据库
+                        //插入到数据库
                         MySQLiteHelper helper = new MySQLiteHelper(mMainView.getActivity());
                         long result = helper.insertRecord(bean);
                         Log.e("lmy", "call: " + result);
-                        //TODO 显示数据到UI
+                        //显示数据到UI
                         mMainView.showVerfInfo(bean);
                         Log.e("lmy", "call: " + new Gson().toJson(bean, VerificationNotifyBean.class));
-                        //TODO 响起提示音
+                        //响起提示音
                         mMainView.verfAlert();
-                        //TODO 核销模式如果为自动，自动发送启动中间控制器指令
+                        //核销模式如果为自动，自动发送启动中间控制器指令
                         if (AUTO_MODE.equals(mMainView.getActivity().mySharedPreferences.getString(VERF_MODE, AUTO_MODE))) {
                             sendControlOpen();
                         }
@@ -195,7 +195,6 @@ public class MainVM {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        //TODO TEST
                         mMainView.jump2history("history");
                     }
                 }, new Action1<Throwable>() {
@@ -211,7 +210,6 @@ public class MainVM {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        //TODO TEST
                         mMainView.jump2history("today");
                     }
                 }, new Action1<Throwable>() {
@@ -315,7 +313,7 @@ public class MainVM {
             }
         }).start();
     }
-
+    private  int Err_Count;
     private void checkControlState() {
         final UdpClient udp = new UdpClient();
         ThreadPoolTools.getInstance().executorCommonThread(new Runnable() {
@@ -334,16 +332,14 @@ public class MainVM {
                             }
                         }
 
-                        if ("Err".equals(result) && (lastState)) {
-                            RxBus.getRxBus().post(new ControlConnectStateBean(false));
-                        }
-                        if (!"Err".equals(result) && (!lastState)) {
-                            RxBus.getRxBus().post(new ControlConnectStateBean(true));
-                        }
                         if ("Err".equals(result)) {
-                            lastState = false;
-                        } else {
-                            lastState = true;
+                            if(Err_Count < 6) Err_Count++;
+                            if(Err_Count >2) {
+                                RxBus.getRxBus().post(new ControlConnectStateBean(false));
+                            }
+                        }else {
+                            Err_Count = 0;
+                            RxBus.getRxBus().post(new ControlConnectStateBean(true));
                         }
                     }
                     SystemClock.sleep(100);

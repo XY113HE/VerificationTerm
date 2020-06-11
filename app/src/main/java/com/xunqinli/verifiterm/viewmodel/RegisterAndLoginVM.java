@@ -13,8 +13,11 @@ import com.xunqinli.verifiterm.model.BaseBean;
 import com.xunqinli.verifiterm.model.RegisterBean;
 import com.xunqinli.verifiterm.model.ShowLoginBean;
 import com.xunqinli.verifiterm.model.UserLoginBean;
+import com.xunqinli.verifiterm.model.VersionBean;
 import com.xunqinli.verifiterm.net.OKHttpUtils;
 import com.xunqinli.verifiterm.rxbus.RxBus;
+import com.xunqinli.verifiterm.utils.AppHook;
+import com.xunqinli.verifiterm.utils.Tools;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -33,7 +36,31 @@ public class RegisterAndLoginVM {
         this.mMainView = mainView;
         this.mBinding = binding;
         OKHttpUtils.setClient();
+        checkVersion();
         initClicks();
+    }
+
+    private void checkVersion() {
+        OKHttpUtils.checkVersion(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                VersionBean b = new Gson().fromJson(json, VersionBean.class);
+                if(b.getCode() == 0 && b.getData() != null){
+                    float lastestVersion = Float.parseFloat(b.getData().getVersion());
+                    float currentVersion = Float.parseFloat(Tools.getVersion(mMainView.getActivity()));
+                    if(lastestVersion > currentVersion){
+                        RxBus.getRxBus().post(b);
+                    }
+                }
+
+            }
+        });
     }
 
     private void initClicks() {
@@ -130,7 +157,6 @@ public class RegisterAndLoginVM {
 
                                             final UserLoginBean bean = new Gson().fromJson(response.body().string(), UserLoginBean.class);
                                             if(bean.getCode() == 0){
-                                                //TODO 登录成功后
                                                 Bundle bundle = new Bundle();
                                                 bundle.putString("name", bean.getData().getName());
                                                 bundle.putString("phone", bean.getData().getPhone());

@@ -5,14 +5,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
 import com.xunqinli.verifiterm.databinding.ActivitySettingBinding;
 import com.xunqinli.verifiterm.interf.SettingInterf;
+import com.xunqinli.verifiterm.model.VersionBean;
+import com.xunqinli.verifiterm.net.OKHttpUtils;
+import com.xunqinli.verifiterm.rxbus.RxBus;
 import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.view.UpdateDialog;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
@@ -35,7 +43,6 @@ public class SettingVM {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        //TODO TEST
                         mMainView.getActivity().finish();
                     }
                 }, new Action1<Throwable>() {
@@ -69,30 +76,25 @@ public class SettingVM {
                     @Override
                     public void call(Void aVoid) {
                         //TODO 检查更新
-                        //TODO 获取当前最新版本号的接口和本地版本号对比
-                        String netVersion = Tools.getVersion(mMainView.getActivity());
-                        if(Float.parseFloat(Tools.getVersion(mMainView.getActivity())) < Float.parseFloat(netVersion)){
-                            //TODO 显示确认弹窗
-                            final UpdateDialog.Builder builder = new UpdateDialog.Builder();
-                            builder.setContext(mMainView.getActivity())
-                                    .setUpdateBinding()
-                                    .setListener(new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(final DialogInterface dialog, int which) {
-                                            if(which == DialogInterface.BUTTON_POSITIVE){
-                                                //TODO 从下载地址更新apk
-                                                Intent intent = new Intent();
-                                                intent.setAction("android.intent.action.VIEW");
-                                                Uri downloadUrl = Uri.parse("https://www.appdy8.com/native/platform/dy/cp.apk");
-                                                intent.setData(downloadUrl);
-                                                mMainView.getActivity().startActivity(intent);
-                                            }
-                                        }
-                                    })
-                                    .show();
-                        }else{
-                            Toast.makeText(mMainView.getActivity(), "当前版本v"+Tools.getVersion(mMainView.getActivity())+"已是最新版本", Toast.LENGTH_SHORT).show();
-                        }
+                        OKHttpUtils.checkVersion(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                String json = response.body().string();
+                                VersionBean b = new Gson().fromJson(json, VersionBean.class);
+                                if(b.getCode() == 0 && b.getData() != null){
+                                    float lastestVersion = Float.parseFloat(b.getData().getVersion());
+                                    float currentVersion = Float.parseFloat(Tools.getVersion(mMainView.getActivity()));
+                                    if(lastestVersion > currentVersion){
+                                        RxBus.getRxBus().post(b);
+                                    }
+                                }
+                            }
+                        });
                     }
                 }, new Action1<Throwable>() {
                     @Override

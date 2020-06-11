@@ -18,7 +18,7 @@ public class HintSoundVM {
 
     public HintSoundVM(MainInterf.MainView mMainView) {
         this.mMainView = mMainView;
-        file = mMainView.getActivity().getResources().openRawResourceFd(R.raw.beep);
+        file = mMainView.getActivity().getResources().openRawResourceFd(R.raw.sound);
         initMediaPlayer();
     }
 

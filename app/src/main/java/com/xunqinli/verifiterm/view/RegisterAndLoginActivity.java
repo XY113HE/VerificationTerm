@@ -1,8 +1,11 @@
 package com.xunqinli.verifiterm.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ import com.xunqinli.verifiterm.cons.Constant;
 import com.xunqinli.verifiterm.databinding.ActivityRegandlogBinding;
 import com.xunqinli.verifiterm.interf.RegAndLogInterf;
 import com.xunqinli.verifiterm.model.ShowLoginBean;
+import com.xunqinli.verifiterm.model.VersionBean;
 import com.xunqinli.verifiterm.rxbus.RxBus;
 import com.xunqinli.verifiterm.utils.AppHook;
 import com.xunqinli.verifiterm.utils.Tools;
@@ -56,16 +60,54 @@ public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogI
                         throwable.printStackTrace();
                     }
                 });
+
+        RxBus.getRxBus().toObservable(VersionBean.class)
+                .compose(RegisterAndLoginActivity.this.<VersionBean>bindUntilEvent(ActivityEvent.DESTROY))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<VersionBean>() {
+                    @Override
+                    public void call(final VersionBean bean) {
+                        if(!AppHook.get().currentActivity().getLocalClassName().equals(getActivity().getLocalClassName())){
+                            return;
+                        }
+                        //TODO 显示确认弹窗
+                        final UpdateDialog.Builder builder = new UpdateDialog.Builder();
+                        builder.setContext(getActivity())
+                                .setUpdateBinding()
+                                .setListener(new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        if(which == DialogInterface.BUTTON_POSITIVE){
+                                            //TODO 从下载地址更新apk
+                                            Intent intent = new Intent();
+                                            intent.setAction("android.intent.action.VIEW");
+                                            Uri downloadUrl = Uri.parse(bean.getData().getLink());
+                                            intent.setData(downloadUrl);
+                                            getActivity().startActivity(intent);
+                                        }
+                                    }
+                                })
+                                .show();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 
     private void initView() {
         //TODO 测试代码
-        editor.putString(ACTIVE_CODE_S, "2019058120001").commit();
+//        Log.e(TAG, "initView: 0001");
+//        editor.putString(ACTIVE_CODE_S, "2060058143002").commit();
         String s = mySharedPreferences.getString(ACTIVE_CODE_S, "");
         if(TextUtils.isEmpty(s)){
             showRegister();
+            Log.e(TAG, "initView: 0002");
         }else{
             showLogin();
+            Log.e(TAG, "initView: 0003");
         }
     }
 
