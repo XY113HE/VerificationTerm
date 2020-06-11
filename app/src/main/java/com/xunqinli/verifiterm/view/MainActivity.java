@@ -90,12 +90,7 @@ public class MainActivity extends BaseActivity implements MainInterf.MainView {
             mMainBinding.nameUser.setText(name);
             mMainBinding.mainVersion.setText(Tools.getVersion(this));
         }
-        String verfMode = mySharedPreferences.getString(VERF_MODE, AUTO_MODE);
-        if (AUTO_MODE.equals(verfMode)) {
-            mMainBinding.verfBtn.setVisibility(View.GONE);
-        } else if (HAND_MODE.equals(verfMode)) {
-            mMainBinding.verfBtn.setVisibility(View.VISIBLE);
-        }
+
 
         //初始不显示右侧3个栏
         mMainBinding.infoLayout1.setVisibility(View.INVISIBLE);

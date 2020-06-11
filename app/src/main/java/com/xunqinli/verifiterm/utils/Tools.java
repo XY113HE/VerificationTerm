@@ -16,9 +16,11 @@ import android.view.WindowManager;
 
 import com.xunqinli.verifiterm.cons.Constant;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.io.Reader;
 import java.net.NetworkInterface;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -120,8 +122,33 @@ public class Tools {
             // 赋予默认值
             ex.printStackTrace();
         }
+        if (macSerial == null || "".equals(macSerial)) {
+            try {
+                return loadFileAsString("/sys/class/net/eth0/address").toUpperCase().substring(0, 17);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e("----->" + "NetInfoManager", "getMacAddress:" + e.toString());
+            }
+        }
+
 
         return macSerial;
+    }
+    private static String loadReaderAsString(Reader reader) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        char[] buffer = new char[4096];
+        int readLength = reader.read(buffer);
+        while (readLength >= 0) {
+            builder.append(buffer, 0, readLength);
+            readLength = reader.read(buffer);
+        }        return builder.toString();
+    }
+
+    private static String loadFileAsString(String fileName) throws Exception {
+        FileReader reader = new FileReader(fileName);
+        String text = loadReaderAsString(reader);
+        reader.close();
+        return text;
     }
 
     /**

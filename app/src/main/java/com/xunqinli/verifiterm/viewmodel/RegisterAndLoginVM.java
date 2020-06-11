@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.jakewharton.rxbinding.view.RxView;
+import com.xunqinli.verifiterm.cons.Constant;
 import com.xunqinli.verifiterm.databinding.ActivityRegandlogBinding;
 import com.xunqinli.verifiterm.interf.RegAndLogInterf;
 import com.xunqinli.verifiterm.model.BaseBean;
@@ -26,6 +27,8 @@ import okhttp3.Callback;
 import okhttp3.Response;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
+import static com.xunqinli.verifiterm.cons.Constant.ACTIVE_CODE;
 
 public class RegisterAndLoginVM {
     private static final String TAG = "lmy_randl";
@@ -104,6 +107,9 @@ public class RegisterAndLoginVM {
                                         //mMainView.showLogin();
                                         // 激活码的存储(sp)
                                         mMainView.getActivity().editor.putString("active_code", code).commit();
+                                        if(TextUtils.isEmpty(Constant.MAC)){
+                                            Constant.MAC = code+"a";
+                                        }
                                     } else {
                                         mMainView.showInfo(b.getMsg());
                                     }

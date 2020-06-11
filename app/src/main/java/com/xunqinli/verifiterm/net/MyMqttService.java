@@ -31,7 +31,7 @@ public class MyMqttService extends Service {
     public static boolean hasConnected = false;
 
     public static final String TAG = "lmy_mqtt";
-    private static MqttAndroidClient mqttAndroidClient;
+    public static MqttAndroidClient mqttAndroidClient;
     private MqttConnectOptions mMqttConnectOptions;
     public String HOST = Constant.MQTT_ADDRESS;//服务器地址（协议+地址+端口号）
 //    public String HOST = "tcp://192.169.0.18:1884";//服务器地址（协议+地址+端口号）
@@ -116,7 +116,7 @@ public class MyMqttService extends Service {
 
         // last will message
         boolean doConnect = true;
-        String message = "{\"terminal_uid\":\"" + CLIENTID + "\"}";
+        String message = "{\"terminal_uid\":\"" + CLIENTID +"\"}";
         String topic = PUBLISH_TOPIC;
         int qos = 2;
         boolean retained = false;

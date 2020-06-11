@@ -25,10 +25,14 @@ import com.xunqinli.verifiterm.utils.Tools;
 import com.xunqinli.verifiterm.viewmodel.RegisterAndLoginVM;
 
 
+import org.eclipse.paho.client.mqttv3.MqttException;
+
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
+import static com.xunqinli.verifiterm.cons.Constant.ACTIVE_CODE;
 import static com.xunqinli.verifiterm.cons.Constant.ACTIVE_CODE_S;
+import static com.xunqinli.verifiterm.net.MyMqttService.mqttAndroidClient;
 
 public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogInterf.MainView{
     private static final String TAG = "lmy_register";
@@ -42,6 +46,9 @@ public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogI
         initView();
         //初始化mac值
         Constant.MAC = Tools.getMac(getApplicationContext());
+        if(TextUtils.isEmpty(Constant.MAC)){
+            Constant.MAC = mySharedPreferences.getString(ACTIVE_CODE, "")+"a";
+        }
         initRxBus();
     }
 
@@ -165,5 +172,16 @@ public class RegisterAndLoginActivity extends BaseActivity implements RegAndLogI
         mBinding.box3Layout.setVisibility(View.VISIBLE);
         mBinding.registerBtn.setVisibility(View.VISIBLE);
         mBinding.loginBtn.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            mqttAndroidClient.disconnect(); //断开连接
+            Log.e(TAG, "onDestroy: -------");
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 }

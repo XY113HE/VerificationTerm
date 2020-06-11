@@ -77,6 +77,12 @@ public class MainVM {
                 .subscribe(new Action1<VerificationNotifyBean>() {
                     @Override
                     public void call(VerificationNotifyBean bean) {
+                        String verfMode = mMainView.getActivity().mySharedPreferences.getString(VERF_MODE, AUTO_MODE);
+                        if (AUTO_MODE.equals(verfMode)) {
+                            mBinding.verfBtn.setVisibility(View.GONE);
+                        } else if (HAND_MODE.equals(verfMode)) {
+                            mBinding.verfBtn.setVisibility(View.VISIBLE);
+                        }
                         //插入到数据库
                         MySQLiteHelper helper = new MySQLiteHelper(mMainView.getActivity());
                         long result = helper.insertRecord(bean);
@@ -89,6 +95,8 @@ public class MainVM {
                         //核销模式如果为自动，自动发送启动中间控制器指令
                         if (AUTO_MODE.equals(mMainView.getActivity().mySharedPreferences.getString(VERF_MODE, AUTO_MODE))) {
                             sendControlOpen();
+                        }else{
+                            mBinding.verfBtn.setClickable(true);
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -227,6 +235,7 @@ public class MainVM {
                     @Override
                     public void call(Void aVoid) {
                         sendControlOpen();
+                        mBinding.verfBtn.setClickable(false);
                         mMainView.updateConfirmState(0);
                     }
                 }, new Action1<Throwable>() {
@@ -257,8 +266,10 @@ public class MainVM {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        sendControlOpen();
-                        mMainView.updateConfirmState(1);
+                        if(mBinding.mainVerfiState1.getText().equals("已确认")) {
+                            sendControlOpen();
+                            mMainView.updateConfirmState(1);
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -273,8 +284,10 @@ public class MainVM {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        sendControlOpen();
-                        mMainView.updateConfirmState(2);
+                        if(mBinding.mainVerfiState2.getText().equals("已确认")) {
+                            sendControlOpen();
+                            mMainView.updateConfirmState(2);
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
@@ -289,8 +302,10 @@ public class MainVM {
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        sendControlOpen();
-                        mMainView.updateConfirmState(3);
+                        if(mBinding.mainVerfiState3.getText().equals("已确认")) {
+                            sendControlOpen();
+                            mMainView.updateConfirmState(3);
+                        }
                     }
                 }, new Action1<Throwable>() {
                     @Override
